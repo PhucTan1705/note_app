@@ -36,81 +36,67 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Đăng Kí'),
-      ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-                  options: DefaultFirebaseOptions.currentPlatform,
-                ),
-        builder: (context, snapshot) {
-
-            switch (snapshot.connectionState){
-              
-              case ConnectionState.done:
-                return Column(
-                  children: [
-                    TextField(
-                      controller: _email,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: 'Nhập Email'
+      appBar:AppBar(title: const Text('Register'),) ,
+      body: Column(
+                    children: [
+                      TextField(
+                        controller: _email,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: 'Nhập Email'
+                        ),
                       ),
-                    ),
-                    TextField(
-                      controller: _password,
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: const InputDecoration(
-                        hintText: 'Nhập Password'
+                      TextField(
+                        controller: _password,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Nhập Password'
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-              
-                        
-                        final email=_email.text;
-                        final password=_password.text;
-                    
-                        try {
-
-                              final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                email: email, 
-                                password: password,
-                              );
-                              print(userCredential);
-
-                        } on FirebaseAuthException catch (e) {
-                          if(e.code=='weak-password')
-                          {
-                            print('Password yeu');
-                          }
-                          else if(e.code=='email-already-in-use')
-                          {
-                            print('Email da duoc su dung');
-                          }
-                          else if(e.code=='invalid-email')
-                          {
-                            print('Email khong hop le');
-                          }
-                        } 
-                        
-                      },
-                    child: const Text('Đăng Kí'), 
-                    
-                    ),
-                  ],
-                );  // TODO: Handle this case.
-                default: 
-                  return const Text('Loading...');
-
-            }
-            
-        },
-        
-      ),
-    );
+                      TextButton(
+                        onPressed: () async {
+                
+                          
+                          final email=_email.text;
+                          final password=_password.text;
+                      
+                          try {
+    
+                                final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                  email: email, 
+                                  password: password,
+                                );
+                                print(userCredential);
+    
+                          } on FirebaseAuthException catch (e) {
+                            if(e.code=='weak-password')
+                            {
+                              print('Password yeu');
+                            }
+                            else if(e.code=='email-already-in-use')
+                            {
+                              print('Email da duoc su dung');
+                            }
+                            else if(e.code=='invalid-email')
+                            {
+                              print('Email khong hop le');
+                            }
+                          } 
+                          
+                        },
+                      child: const Text('Đăng Kí'), 
+                      
+                      ),
+                      TextButton(onPressed:() {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/login', (route) => false);
+                      }, child: Text('Đã Đăng Kí? Đăng Nhập Ngay'))
+                    ],
+                  ),
+    );  // TODO: Handle this case.
   }
 }

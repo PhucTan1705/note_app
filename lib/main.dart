@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_23/views/login_view.dart';
+import 'package:project_23/views/register_view.dart';
+import 'package:project_23/views/verify_email.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -13,6 +15,10 @@ void main() {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
+      routes: {
+        '/login':(context) => const Login(),
+        '/register':(context) => const RegisterView()
+      },
     ),
   );
 }
@@ -22,10 +28,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home'),
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Firebase.initializeApp(
                   options: DefaultFirebaseOptions.currentPlatform,
                 ),
@@ -35,22 +38,34 @@ class HomePage extends StatelessWidget {
               
               case ConnectionState.done:
                   final user = FirebaseAuth.instance.currentUser;
-                  final ev=user?.emailVerified ?? false;
-                  if(ev){
-                    print("You are Verified");
+                  if(user!=null){
+                    if(user.emailVerified){
+                      print("Email da duoc xac thuc");
+                    } else {
+                      return const VerifyEmailView();
+                    }
                   } else{
-                    print("You aren't Verified");
+                    return const Login();
                   }
-                  return const Text('Done');
+                  return const Text("Done");
+                  //final ev=user?.emailVerified ?? false;
+                  //print(user);
+                  //if(ev){
+                    //return const Text('Done');
+                  //} else{
+                   //return const VerifyEmailView();
+                  //}
+                  
               default: 
-                  return const Text('Loading...');
+                  return const CircularProgressIndicator();
             }
             
         },
         
-      ),
-    );
+      );
   }
 }
+
+
 
 
