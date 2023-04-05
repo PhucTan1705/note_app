@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
-
 import 'package:project_23/constants/routes.dart';
+import '../utilities/show_error_dialog.dart';
 
 
 class Login extends StatefulWidget {
@@ -21,14 +20,14 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     _email=TextEditingController();
-    _password=TextEditingController();// TODO: implement initState
+    _password=TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
     _email.dispose();
-    _password.dispose();// TODO: implement dispose
+    _password.dispose();
     super.dispose();
   }
   
@@ -73,11 +72,18 @@ class _LoginState extends State<Login> {
     
                           } on FirebaseAuthException catch (e) {
                             if (e.code=='user-not-found') {
-                              devtools.log('Khong tim thay nguoi dung');
+                              showErrorDialog(context, 'Không Tìm Thấy Người Dùng');
                             } else if (e.code=='wrong-password'){
-                              devtools.log('Sai mat khau');
+                              showErrorDialog(context, 'Sai Mật Khẩu');
                               
+                            } else {
+                              await showErrorDialog(context, 
+                              'Error: ${e.code}');
                             }
+                          } catch(e){
+                           await showErrorDialog(context, 
+                              e.toString());
+
                           } 
                           
                           
@@ -90,7 +96,7 @@ class _LoginState extends State<Login> {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                             registerRoute, (route) => false);
                         },
-                        child: Text('Chưa Đăng Kí? Đăng Kí Ngay'),
+                        child: const Text('Chưa Đăng Kí? Đăng Kí Ngay'),
                       )
                     ],
                   ),
@@ -99,3 +105,4 @@ class _LoginState extends State<Login> {
 
   
 }
+
