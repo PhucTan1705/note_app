@@ -6,7 +6,7 @@ import 'package:project_23/views/login_view.dart';
 import 'package:project_23/views/register_view.dart';
 import 'package:project_23/views/verify_email.dart';
 import 'firebase_options.dart';
-import 'dart:developer' as devtools show log;
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,8 @@ void main() {
       routes: {
         loginRoute:(context) => const Login(),
         registerRoute:(context) => const RegisterView(),
-        notesRoute:(context) => const NotesView()
+        notesRoute:(context) => const NotesView(),
+        verifyEmailRoute:(context) => const VerifyEmailView()
       },
     ),
   );

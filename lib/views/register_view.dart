@@ -1,8 +1,8 @@
 
-import 'dart:developer' as devtools show log;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_23/constants/routes.dart';
+import 'package:project_23/utilities/show_error_dialog.dart';
 
 
 class RegisterView extends StatefulWidget {
@@ -65,26 +65,35 @@ class _RegisterViewState extends State<RegisterView> {
                       
                           try {
     
-                                final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                   email: email, 
                                   password: password,
                                 );
-                                devtools.log(userCredential.toString());
-                                print(userCredential);
+                                final user =FirebaseAuth.instance.currentUser;
+                                await user?.sendEmailVerification();
+                                Navigator.of(context).pushNamed(verifyEmailRoute);
+      
     
                           } on FirebaseAuthException catch (e) {
                             if(e.code=='weak-password')
                             {
-                              devtools.log('Password yeu');
+                              await showErrorDialog(context, "Mật khẩu yếu");
                             }
                             else if(e.code=='email-already-in-use')
                             {
-                              devtools.log('Email da duoc su dung');
+                              await showErrorDialog(context, "Email đã được dùng");
                             }
                             else if(e.code=='invalid-email')
                             {
-                              devtools.log('Email khong hop le');
+                              await showErrorDialog(context, "Email không hợp lệ");
+                            } else {
+                               await showErrorDialog(context, 
+                              'Error: ${e.code}');
                             }
+                          } catch(e){
+                           await showErrorDialog(context, 
+                              e.toString());
+
                           } 
                           
                         },
