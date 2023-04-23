@@ -62,15 +62,18 @@ void main() {
 
     test('Người dùng đăng nhập nên được xác minh', () {
       provider.sendEmailVerification();
-      final user=provider.currentUser;
+      final user = provider.currentUser;
       expect(user, isNotNull);
       expect(user!.isEmailVerified, true);
     });
 
     test('có thể đăng nhập và dăng xuất', () async {
       await provider.logOut();
-      await provider.logIn(email: 'email', password: 'password',);
-      final user=provider.currentUser;
+      await provider.logIn(
+        email: 'email',
+        password: 'password',
+      );
+      final user = provider.currentUser;
       expect(user, isNotNull);
     });
   });
@@ -113,7 +116,10 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialized) throw NotInitializedException();
     if (email == 'osirisnk@gmail.com') throw UserNotLoginAuthException();
     if (password == '123456') throw WrongPasswordAuthException();
-    const user = AuthUser(isEmailVerified: false);
+    const user = AuthUser(
+      isEmailVerified: false,
+      email: 'osirsnk@gmail.com',
+    );
     _user = user;
     return Future.value(user);
   }
@@ -131,7 +137,10 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialized) throw NotInitializedException();
     final user = _user;
     if (user == null) throw UserNotFoundAuthException();
-    const newUser = AuthUser(isEmailVerified: true);
+    const newUser = AuthUser(
+      isEmailVerified: true,
+      email: 'osirisnk@gmail.com',
+    );
     _user = newUser;
   }
 }
