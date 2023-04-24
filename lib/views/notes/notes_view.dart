@@ -23,19 +23,13 @@ class _NotesViewState extends State<NotesView> {
   }
 
   @override
-  void dispose() {
-    _notesService.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main UI"),
+        title: const Text("Ghi Chú Của Bạn"),
         actions: [
           IconButton(
-            onPressed:() {
+            onPressed: () {
               Navigator.of(context).pushNamed(newNoteRoute);
             },
             icon: const Icon(Icons.add),
@@ -71,10 +65,28 @@ class _NotesViewState extends State<NotesView> {
               return StreamBuilder(
                 stream: _notesService.allNotes,
                 builder: (context, snapshot) {
-                  switch (snapshot.connectionState){
+                  switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.active:
-                      return const Text("Note đang load");
+                      if (snapshot.hasData) {
+                        final allNotes = snapshot.data as List<DatabaseNote>;
+                        return ListView.builder(
+                          itemCount: allNotes.length,
+                          itemBuilder: (context, index) {
+                            final note = allNotes[index];
+                            return ListTile(
+                              title: Text(
+                                note.text,
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
                     default:
                       return const CircularProgressIndicator();
                   }
