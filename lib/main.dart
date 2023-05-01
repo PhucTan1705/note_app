@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:project_23/constants/routes.dart';
 import 'package:project_23/service/auth/aut_service.dart';
 import 'package:project_23/views/login_view.dart';
-import 'package:project_23/views/notes/new_note_view.dart';
+import 'package:project_23/views/notes/create_update_note_view.dart';
 import 'package:project_23/views/notes/notes_view.dart';
 import 'package:project_23/views/register_view.dart';
 import 'package:project_23/views/verify_email.dart';
@@ -24,7 +24,7 @@ void main() {
         registerRoute:(context) => const RegisterView(),
         notesRoute:(context) => const NotesView(),
         verifyEmailRoute:(context) => const VerifyEmailView(),
-        newNoteRoute: (context) => const NewNoteView(),
+        creatOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
       },
     ),
   );
