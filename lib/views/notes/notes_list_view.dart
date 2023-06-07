@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:project_23/service/crud/notes_service.dart';
 import 'package:project_23/utilities/dialog/delete_dialog.dart';
 

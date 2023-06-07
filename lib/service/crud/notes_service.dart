@@ -1,6 +1,7 @@
  import 'dart:async';
 
  import 'package:flutter/foundation.dart';
+import 'package:project_23/extensions/list/fillter.dart';
 
  import 'package:project_23/service/crud/crud_exceptions.dart';
  import 'package:sqflite/sqflite.dart';
@@ -26,7 +27,15 @@
 
    late final StreamController<List<DatabaseNote>> _notesStreamController;
 
-   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+   Stream<List<DatabaseNote>> get allNotes => 
+        _notesStreamController.stream.filter((note) {
+          final currentUser=_user;
+          if(currentUser!=null){
+            return note.userId == currentUser.id;
+          } else {
+            throw UserShouldBeSetBeforeReadingAllNotes();
+          }
+   });
 
    Future<DatabaseUser> getOrCreateUser({
      required String email,
