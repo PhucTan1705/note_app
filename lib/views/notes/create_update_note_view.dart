@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_23/service/auth/aut_service.dart';
+import 'package:project_23/utilities/dialog/cannot_share_empty_note_dialog.dart';
 import 'package:project_23/utilities/generics/get_arguments.dart';
 import 'package:project_23/service/cloud/cloud_note.dart';
-import 'package:project_23/service/cloud/cloud_storage_exceptions.dart';
 import 'package:project_23/service/cloud/firebase_cloud_storage.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CreateUpdateNoteView extends StatefulWidget {
   const CreateUpdateNoteView({super.key});
@@ -30,25 +31,20 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
       return;
     }
     final text = _textController.text;
-    await _notesService.updatedNote(
-      documentId: note.documentId, 
-      text: text
-    );
-
+    await _notesService.updatedNote(documentId: note.documentId, text: text);
   }
 
-  void _setupTextControllerListener(BuildContext context){
+  void _setupTextControllerListener(BuildContext context) {
     _textController.removeListener(_textControllerListener);
     _textController.addListener(_textControllerListener);
   }
 
   Future<CloudNote> createOrGetExistingNote() async {
-    
     final widgetNote = context.getArgument<CloudNote>();
 
-    if(widgetNote!=null){
-      _note=widgetNote;
-      _textController.text=widgetNote.text;
+    if (widgetNote != null) {
+      _note = widgetNote;
+      _textController.text = widgetNote.text;
       return widgetNote;
     }
 
@@ -57,9 +53,9 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
       return existingNote;
     }
     final currentUser = AuthService.firebase().currentUser!;
-    final userId=currentUser.id;
-    final newNote= await _notesService.createNewNote(ownerUserId: userId);
-    _note=newNote;
+    final userId = currentUser.id;
+    final newNote = await _notesService.createNewNote(ownerUserId: userId);
+    _note = newNote;
     return newNote;
   }
 
@@ -74,10 +70,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     final note = _note;
     final text = _textController.text;
     if (note != null && text.isNotEmpty) {
-      await _notesService.updatedNote(
-        documentId: note.documentId, 
-        text: text
-      );
+      await _notesService.updatedNote(documentId: note.documentId, text: text);
     }
   }
 
@@ -94,11 +87,24 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ghi Chú Mới'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final text = _textController.text;
+              if(_note==null || text.isEmpty){
+                await shoCannotShareEmptyNoteDialog(context);
+              } else {
+                Share.share(text);
+              }
+            },
+            icon: const Icon(Icons.share),
+          )
+        ],
       ),
       body: FutureBuilder(
         future: createOrGetExistingNote(),
         builder: (context, snapshot) {
-          switch (snapshot.connectionState){
+          switch (snapshot.connectionState) {
             case ConnectionState.done:
               _setupTextControllerListener(context);
               return TextField(
