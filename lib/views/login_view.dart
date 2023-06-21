@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_23/constants/routes.dart';
 import 'package:project_23/service/auth/aut_service.dart';
 import 'package:project_23/service/auth/auth_exceptions.dart';
+import 'package:project_23/service/auth/bloc/auth_bloc.dart';
+import 'package:project_23/service/auth/bloc/auth_event.dart';
 import '../utilities/dialog/error_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -56,19 +59,12 @@ class _LoginState extends State<Login> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await AuthService.firebase().logIn(
-                  email: email,
-                  password: password,
+                context.read<AuthBloc>().add(
+                  AuthEventLogIn(
+                    email, 
+                    password,
+                  )
                 );
-
-                final user = AuthService.firebase().currentUser;
-                if (user?.isEmailVerified ?? false) {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(notesRoute, (route) => false);
-                } else {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailRoute, (route) => false);
-                }
               } on UserNotFoundAuthException {
                 await showErrorDialog(
                   context,
