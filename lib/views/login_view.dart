@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_23/constants/routes.dart';
-import 'package:project_23/service/auth/aut_service.dart';
 import 'package:project_23/service/auth/auth_exceptions.dart';
 import 'package:project_23/service/auth/bloc/auth_bloc.dart';
 import 'package:project_23/service/auth/bloc/auth_event.dart';
+import 'package:project_23/service/auth/bloc/auth_state.dart';
 import '../utilities/dialog/error_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -54,35 +54,29 @@ class _LoginState extends State<Login> {
             autocorrect: false,
             decoration: const InputDecoration(hintText: 'Nhập Password'),
           ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                context.read<AuthBloc>().add(
-                  AuthEventLogIn(
-                    email, 
-                    password,
-                  )
-                );
-              } on UserNotFoundAuthException {
-                await showErrorDialog(
-                  context,
-                  "Khong tim thay nguoi dung",
-                );
-              } on WrongPasswordAuthException {
-                await showErrorDialog(
-                  context,
-                  'Sai Mật Khẩu',
-                );
-              } on GenericAuthException {
-                await showErrorDialog(
-                  context,
-                  "Lỗi xác thực",
-                );
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state is AuthStateLoggedOut) {
+                if (state.exception is UserNotFoundAuthException || state.exception is WrongPasswordAuthException) {
+                  await showErrorDialog(context, 'Thông Tin Đăng Nhập Không Chính Xác');
+                } else if (state.exception is GenericAuthException) {
+                  await showErrorDialog(context, 'Lỗi Xác Thực');
+                }
               }
             },
-            child: const Text('Login'),
+            child: TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                context.read<AuthBloc>().add(
+                      AuthEventLogIn(
+                        email,
+                        password,
+                      ),
+                    );
+              },
+              child: const Text('Login'),
+            ),
           ),
           TextButton(
             onPressed: () {
