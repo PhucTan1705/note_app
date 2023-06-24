@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_23/constants/routes.dart';
-import 'package:project_23/service/auth/aut_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_23/service/auth/bloc/auth_bloc.dart';
+import 'package:project_23/service/auth/bloc/auth_event.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -13,22 +14,27 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify email'),),
-      body: Column(children: [
-          const Text("Xin hãy kiểm tra gmail để xác nhận email"),
-          const Text("Nếu không nhận được email, xin nhấn nút này"),
-          TextButton(onPressed: () async {
-            await AuthService.firebase().sendEmailVerification();
-          }, child: const Text('Send email verification')),
-
-          TextButton(onPressed: () async {
-            await AuthService.firebase().logOut();
-            Navigator.of(context).pushNamedAndRemoveUntil(registerRoute, 
-            (route) => false);
-          }, child: const Text("Thoát"))
-
-        ]
+      appBar: AppBar(
+        title: const Text('Verify email'),
       ),
+      body: Column(children: [
+        const Text("Xin hãy kiểm tra gmail để xác nhận email"),
+        const Text("Nếu không nhận được email, xin nhấn nút này"),
+        TextButton(
+            onPressed: () {
+              context.read<AuthBloc>().add(
+                const AuthEventSendEmailVerification(),
+              );
+            },
+            child: const Text('Gửi Email Xác Nhận')),
+        TextButton(
+            onPressed: () async {
+              context.read<AuthBloc>().add(
+                const AuthEventLogOut(),
+              );
+            },
+            child: const Text("Thoát"))
+      ]),
     );
   }
-} 
+}
