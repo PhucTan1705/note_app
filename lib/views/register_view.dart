@@ -52,43 +52,55 @@ class _RegisterViewState extends State<RegisterView> {
         appBar: AppBar(
           title: const Text('Register'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(hintText: 'Nhập Email'),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(hintText: 'Nhập Password'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                context.read<AuthBloc>().add(
-                      AutheEventRegister(
-                        email,
-                        password,
-                      ),
-                    );
-              },
-              child: const Text('Đăng Kí'),
-            ),
-            TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(
-                    const AuthEventLogOut(),
-                  );
-                },
-                child: const Text('Đã Đăng Kí? Đăng Nhập Ngay'))
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Nhập thông tin đăng kí!'),
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                autofocus: true,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(hintText: 'Nhập Email'),
+              ),
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(hintText: 'Nhập Password'),
+              ),
+              Center(
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        final email = _email.text;
+                        final password = _password.text;
+                        context.read<AuthBloc>().add(
+                              AutheEventRegister(
+                                email,
+                                password,
+                              ),
+                            );
+                      },
+                      child: const Text('Đăng Kí'),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                                const AuthEventLogOut(),
+                              );
+                        },
+                        child: const Text('Đã Đăng Kí? Đăng Nhập Ngay'))
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ); // TODO: Handle this case.

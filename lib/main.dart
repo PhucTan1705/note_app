@@ -6,6 +6,7 @@ import 'package:project_23/service/auth/bloc/auth_bloc.dart';
 import 'package:project_23/service/auth/bloc/auth_event.dart';
 import 'package:project_23/service/auth/bloc/auth_state.dart';
 import 'package:project_23/service/auth/firebase_auth_provider.dart';
+import 'package:project_23/views/forgot_password_view.dart';
 import 'package:project_23/views/login_view.dart';
 import 'package:project_23/views/notes/create_update_note_view.dart';
 import 'package:project_23/views/notes/notes_view.dart';
@@ -55,6 +56,8 @@ class HomePage extends StatelessWidget {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
           return const Login();
+        } else if(state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
@@ -66,3 +69,5 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
