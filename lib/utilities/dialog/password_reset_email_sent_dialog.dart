@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:project_23/extensions/buildcontext/loc.dart';
 import 'package:project_23/utilities/dialog/generic_dialog.dart';
 
 Future<void> showPasswordResetDialog(BuildContext context){
   return showGenericDialog<void>(
     context: context, 
-    title: "Đặt Lại Mật Khẩu", 
-    content: 'Chúng Tôi Đã Gửi Đường Link Đặt Lại Mật Khẩu, Xin Kiểm Tra Email', 
+    title: context.loc.password_reset, 
+    content: context.loc.password_reset_dialog_prompt, 
     optionsBuilder:() => {
-      'OK' : null,
+      context.loc.ok : null,
     },
   );
 }

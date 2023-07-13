@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_23/extensions/buildcontext/loc.dart';
 import 'package:project_23/service/auth/bloc/auth_bloc.dart';
 import 'package:project_23/service/auth/bloc/auth_event.dart';
 import 'package:project_23/service/auth/bloc/auth_state.dart';
@@ -40,47 +41,48 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           if (state.exception != null) {
             await showErrorDialog(
               context,
-              'Không Thể Xử Lý Yêu Cầu',
+              context.loc.forgot_password_view_generic_error,
             );
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Quên Mật Khẩu'),
+          title: Text(context.loc.forgot_password),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Text(
-                  'Nếu bạn quên mật khẩu xin vui lòng nhập Email, để chúng tôi gửi bản đường link reset mật khẩu.'),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                autofocus: true,
-                controller: _controller,
-                decoration:
-                    const InputDecoration(hintText: 'Địa chỉ email của bạn...'),
-              ),
-              TextButton(
-                onPressed: () {
-                  final email = _controller.text;
-                  context.read<AuthBloc>().add(
-                        AuthEventForgotPassword(email: email),
-                      );
-                },
-                child: const Text('Gửi link reset mật khẩu'),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventLogOut(),
-                      );
-                },
-                child: const Text('Trở lại trang đăng nhập'),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(context.loc.forgot_password_view_prompt),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  autofocus: true,
+                  controller: _controller,
+                  decoration: InputDecoration(
+                      hintText: context.loc.email_text_field_placeholder),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final email = _controller.text;
+                    context.read<AuthBloc>().add(
+                          AuthEventForgotPassword(email: email),
+                        );
+                  },
+                  child: Text(context.loc.forgot_password_view_send_me_link),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
+                  },
+                  child: Text(context.loc.forgot_password_view_back_to_login),
+                ),
+              ],
+            ),
           ),
         ),
       ),

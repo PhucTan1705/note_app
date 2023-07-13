@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_23/extensions/buildcontext/loc.dart';
 import 'package:project_23/service/auth/aut_service.dart';
 import 'package:project_23/utilities/dialog/cannot_share_empty_note_dialog.dart';
 import 'package:project_23/utilities/generics/get_arguments.dart';
@@ -86,12 +87,12 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ghi Chú Mới'),
+        title: Text(context.loc.note),
         actions: [
           IconButton(
             onPressed: () async {
               final text = _textController.text;
-              if(_note==null || text.isEmpty){
+              if (_note == null || text.isEmpty) {
                 await shoCannotShareEmptyNoteDialog(context);
               } else {
                 Share.share(text);
@@ -111,8 +112,8 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                 controller: _textController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Nhập ghi chú...',
+                decoration: InputDecoration(
+                  hintText: context.loc.start_typing_your_note,
                 ),
               );
             default:

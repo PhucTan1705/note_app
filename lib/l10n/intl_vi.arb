@@ -1,0 +1,60 @@
+{
+    "logout_button": "Đăng Xuất",
+    "note": "Ghi Chú",
+    "cancel": "Hủy Bỏ",
+    "yes": "Đồng Ý",
+    "delete": "Xóa",
+    "sharing": "Chia Sẻ",
+    "ok": "OK",
+    "login": "Đăng Nhập",
+    "verify_email": "Xác Nhận Email",
+    "register": "Đăng Kí",
+    "restart": "Khởi Động Lại",
+
+    "start_typing_your_note": "Nhập ghi chú",
+    "delete_note_prompt": "Bạn có múa xóa ghi chú này không",
+    "cannot_share_empty_note_prompt": "Không thể chia sẽ một ghi chú trống",
+    "generic_error_prompt": "Đã có lỗi xảy ra",
+    "logout_dialog_prompt": "Bạn có muốn đăng xuất không?",
+
+    "password_reset": "Đặt lại mật khẩu",
+    "password_reset_dialog_prompt": "Chúng tôi đã gửi link đặt lại mật khẩu, xin vui lòng kiểm tra email.",
+
+    "login_error_cannot_find_user": "Không tìm thấy User",
+    "login_error_wrong_credentials": "Sai thông tin đặng nhập",
+    "login_error_auth_error": "Lỗi xác thực",
+
+    "login_view_prompt": "Xin vui lòng đăng nhập để tạo ghi chú",
+    
+    "login_view_forgot_password": "Quên mật khẩu",
+    "login_view_not_registered_yet": "Chưa đăng kí? Đăng kí ngay!",
+
+    "email_text_field_placeholder": "Nhập email ở đây",
+    "password_text_field_placeholder": "Nhập mật khẩu ở đây",
+    
+    "forgot_password": "Quên maajrt khẩu?",
+    "forgot_password_view_generic_error": "Chúng tôi không thể xử lý yêu cầu của bạn. Vui lòng đảm bảo rằng bạn là người dùng đã đăng ký hoặc nếu không, hãy đăng ký người dùng ngay bây giờ.",
+    "forgot_password_view_prompt": "Nếu bạn quên mật khẩu, chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một liên kết đặt lại mật khẩu.",
+    "forgot_password_view_send_me_link": "Gửi cho tôi liên kết đặt lại mật khẩu",
+    "forgot_password_view_back_to_login": "Trở lại trang đăng nhập",
+
+    "register_error_weak_password": "Mật khẩu này không đủ an toàn. Vui lòng chọn mật khẩu khác!",
+    "register_error_email_already_in_use": "Email này đã được sử dụng bởi người dùng khác. Vui lòng chọn email khác!",
+    "register_error_generic": "Đăng kí thất bại. Vui lòng thử lại sau!",
+    "register_error_invalid_email": "Địa chỉ email bạn đã nhập có vẻ không hợp lệ. Vui lòng thử một địa chỉ email khác!",
+    "register_view_prompt": "Nhập email và mật khẩu của bạn để xem ghi chú của bạn!",
+    "register_view_already_registered": "Đã đăng ký? Đăng nhập tại đây!",
+
+    "verify_email_view_prompt": "Chúng tôi đã gửi cho bạn một email xác minh. Vui lòng mở nó để xác minh tài khoản của bạn. Nếu bạn chưa nhận được email xác minh, hãy nhấn nút bên dưới!",
+    "verify_email_send_email_verification": "Gửi email xác minh",
+
+    "notes_title": "{count, plural, =0{Chưa Có Ghi Chú} =1{Có 1 Ghi Chú} other{Có {count} Ghi Chú}}",
+    "@notes_title": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3 notes"
+            }
+        }
+    }
+}
